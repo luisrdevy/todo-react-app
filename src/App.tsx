@@ -1,53 +1,45 @@
+import "./App.css";
 
 const App = () => {
 
     return (
         <main>
-            <h1>Todos app</h1>
+            <h1>todos app</h1>
             <h3>What needs to be done?</h3>
             <form>
-                <input type="text"/>
+                <input type="text" defaultValue="learn useContext" />
                 <button>Add</button>
             </form>
             <section id="filters">
-                <button>Show all tasks</button>
-                <button>Show active tasks</button>
-                <button>Show completed tasks</button>
+                <button>all tasks</button>
+                <button>active tasks</button>
+                <button>completed tasks</button>
             </section>
-            <section>
-                <h3>3 tasks remaining</h3>
-                <ul>
-                    <li>
-                        <div>
-                            <input id="todo-0" type="checkbox"/>
-                            <label htmlFor="todo-0">Learn useState</label>
-                            <div>
-                                <button>Edit</button>
-                                <button>Remove</button>
-                            </div>
+            <section id="todo-list">
+                <div className="todo">
+                    <input id="todo-0" type="checkbox"/>
+                    <label htmlFor="todo-0">Learn useState</label>
+                    <div className="actions">
+                        <button>Edit</button>
+                        <button>Remove</button>
+                    </div>
+                </div>
+                <div className="todo">
+                        <input id="todo-1" type="checkbox"/>
+                        <label htmlFor="todo-1">Learn useEffect</label>
+                        <div className="actions">
+                            <button>Edit</button>
+                            <button>Remove</button>
                         </div>
-                    </li>
-                    <li>
-                        <div>
-                            <input id="todo-1" type="checkbox"/>
-                            <label htmlFor="todo-1">Learn useEffect</label>
-                            <div>
-                                <button>Edit</button>
-                                <button>Remove</button>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div>
-                            <input id="todo-2" type="checkbox"/>
-                            <label htmlFor="todo-2">Learn useReducer</label>
-                            <div>
-                                <button>Edit</button>
-                                <button>Remove</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                <div className="todo">
+                    <input id="todo-2" type="checkbox"/>
+                    <label htmlFor="todo-2">Learn useReducer</label>
+                    <div className="actions">
+                        <button>Edit</button>
+                        <button>Remove</button>
+                    </div>
+                </div>
             </section>
         </main>
     )
