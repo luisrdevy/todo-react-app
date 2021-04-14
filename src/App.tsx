@@ -59,9 +59,10 @@ const App = () => {
                 {filterNames.map(name => <ButtonFilter key={name} name={name} setFilter={setFilter} />)}
             </section>
             <section id="todo-list">
-            {todos
+            {todos.length ? todos
             .filter(FILTER_MAP[filter])
-                .map(todo => <TodoItem key={todo.id} {...todo} handleDeleteTodo={handleDeleteTodo} handleToggleTodoCompleted={handleToggleTodoCompleted} handleEditTodo={handleEditTodo} />)}
+                .map(todo => <TodoItem key={todo.id} {...todo} handleDeleteTodo={handleDeleteTodo} handleToggleTodoCompleted={handleToggleTodoCompleted} handleEditTodo={handleEditTodo} />) :
+                (<h4 style={{ textAlign: "center"}}>Empty list</h4>)}
             </section>
         </main>
     )
