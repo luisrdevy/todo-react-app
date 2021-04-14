@@ -1,45 +1,67 @@
+import { useEffect, useState } from "react";
+import Form from "./components/Form";
 import "./App.css";
+import TodoItem from "./components/TodoItem";
+import ButtonFilter from "./components/ButtonFilter";
+import { Todo } from "./types";
+
+interface IFilterMap {
+    [key: string]: any,
+
+}
+
+const FILTER_MAP: IFilterMap = {
+    All: () => true,
+    Active: (todo: Todo) => !todo.completed,
+    Completed: (todo: Todo) => todo.completed
+};
+
+const filterNames = Object.keys(FILTER_MAP);
+const initialState = JSON.parse(localStorage.getItem('todos') || "[]") || []
 
 const App = () => {
+
+    const [todos, setTodos] = useState<Todo[]>(initialState);
+    const [filter, setFilter] = useState("All");
+
+    const handleToggleTodoCompleted = (id: string) => {
+        setTodos(todos.map(todo => {
+            if(todo.id === id) {
+                return { ...todo, completed: !todo.completed }
+            }
+            return todo;
+        }))
+    }
+
+    const handleDeleteTodo = (id: string) => {
+        setTodos(todos.filter(todo => todo.id !== id));
+    }
+
+    const handleEditTodo = (id: string, newTodo: string) => {
+        setTodos(todos.map(todo => {
+            if(todo.id === id) {
+                return { ...todo, todo: newTodo }
+            }
+            return todo;
+        }));
+    }
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+    }, [todos]);
 
     return (
         <main>
             <h1>todos app</h1>
             <h3>What needs to be done?</h3>
-            <form>
-                <input type="text" defaultValue="learn useContext" />
-                <button>Add</button>
-            </form>
+            <Form todos={todos} setTodos={setTodos} />
             <section id="filters">
-                <button>all tasks</button>
-                <button>active tasks</button>
-                <button>completed tasks</button>
+                {filterNames.map(name => <ButtonFilter key={name} name={name} setFilter={setFilter} />)}
             </section>
             <section id="todo-list">
-                <div className="todo">
-                    <input id="todo-0" type="checkbox"/>
-                    <label htmlFor="todo-0">Learn useState</label>
-                    <div className="actions">
-                        <button>Edit</button>
-                        <button>Remove</button>
-                    </div>
-                </div>
-                <div className="todo">
-                        <input id="todo-1" type="checkbox"/>
-                        <label htmlFor="todo-1">Learn useEffect</label>
-                        <div className="actions">
-                            <button>Edit</button>
-                            <button>Remove</button>
-                        </div>
-                    </div>
-                <div className="todo">
-                    <input id="todo-2" type="checkbox"/>
-                    <label htmlFor="todo-2">Learn useReducer</label>
-                    <div className="actions">
-                        <button>Edit</button>
-                        <button>Remove</button>
-                    </div>
-                </div>
+            {todos
+            .filter(FILTER_MAP[filter])
+                .map(todo => <TodoItem key={todo.id} {...todo} handleDeleteTodo={handleDeleteTodo} handleToggleTodoCompleted={handleToggleTodoCompleted} handleEditTodo={handleEditTodo} />)}
             </section>
         </main>
     )
